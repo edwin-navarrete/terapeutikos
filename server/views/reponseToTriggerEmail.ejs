@@ -1,0 +1,35 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+<style>
+  button {
+    background: none;
+    border: none;
+    padding: 0;
+    font: inherit;
+    border-bottom: 1px solid #000000;
+    cursor: pointer;
+  }
+</style>
+
+<section class="container">
+  <h1>
+    <%= title %>
+  </h1>
+  <% if (typeof content !== 'undefined') { %>
+    <p>
+      <%= content %>
+    </p>
+    <% } %>
+
+      <form action="<%= redirectToEmail %>" method='post'>
+        <button type='submit' value="<%= redirectToLinkText %>">
+          <%= redirectToLinkText %>
+        </button>
+        para reenviar correo para completar registro. Haga clic en
+        <a href="<%= redirectTo %>">inicio</a> para intentar ingresar de nuevo o registrarse.
+      </form>
+</section>

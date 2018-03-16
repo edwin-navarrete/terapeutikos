@@ -1,0 +1,99 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+<div class="well">
+  <h1>
+    <i class="glyphicon glyphicon-tree-deciduous"></i> Terapeutikos</h1>
+</div>
+<section class="container">
+  <div class="col-md-offset-3 col-md-6">
+    <ul class="nav nav-tabs" role="tablist">
+      <li class="nav-item active">
+        <a class="nav-link" id="login-tab" data-toggle="tab" href="#login" role="tab" aria-controls="login" aria-selected="true">Ingresar</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" id="register-tab" data-toggle="tab" href="#register" role="tab" aria-controls="register" aria-selected="false">Registrarse</a>
+      </li>
+    </ul>
+    <div class="tab-content" id="myTabContent">
+      <div class="tab-pane fade active in" id="login" role="tabpanel" aria-labelledby="login-tab">
+        <form action="/login" method="post">
+          <fieldset>
+            <div class="form-group">
+              <label class="control-label" for="email">Email:</label>
+              <div class="input-group">
+                <span class="input-group-addon">
+                  <i class="glyphicon glyphicon-user"></i>
+                </span>
+                <input type="text" class="form-control" name="email" value="<%= email %>" />
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="control-label" for="password">Contraseña:</label>
+              <div class="input-group">
+                <span class="input-group-addon">
+                  <i class="glyphicon glyphicon-lock"></i>
+                </span>
+                <input type="password" class="form-control" name="password" value="<%= password %>" />
+              </div>
+            </div>
+            <div class="form-group">
+              <input class="btn btn-primary col-xs-offset-2 col-xs-8" type="submit" value="Ingresar" />
+            </div>
+          </fieldset>
+        </form>
+        <div class="row">
+          <div class="col-xs-12 text-center">
+            <a href="#">Olvidó su contraseña?</a>
+          </div>
+        </div>
+        <form action="/request-password-reset" method="post">
+          <fieldset>
+            <div class="form-group">
+              <label class="control-label" class="control-label" for="email">Email:</label>
+              <div class="input-group">
+                <span class="input-group-addon">
+                  <i class="glyphicon glyphicon-user"></i>
+                </span>
+                <input class="form-control" type="text" name="email" value="<%= email %>" />
+              </div>
+            </div>
+            <div class="form-group">
+              <input class="btn btn-primary col-xs-offset-2 col-xs-8" type="submit" value="Restaure contraseña" />
+            </div>
+          </fieldset>
+        </form>
+      </div>
+      <div class="tab-pane fade" id="register" role="tabpanel" aria-labelledby="register-tab">
+        <form action="/api/users" method="post">
+          <fieldset>
+            <div class="form-group">
+              <label class="control-label" for="email">Email:</label>
+              <div class="input-group">
+                <span class="input-group-addon">
+                  <i class="glyphicon glyphicon-user"></i>
+                </span>
+                <input class="form-control" type="text" name="email" value="<%= email %>" />
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="control-label" for="password">Contraseña:</label>
+              <div class="input-group">
+                <span class="input-group-addon">
+                  <i class="glyphicon glyphicon-lock"></i>
+                </span>
+                <input class="form-control" type="password" name="password" value="<%= password %>" />
+              </div>
+            </div>
+            <div class="form-group">
+              <input class="btn btn-primary col-xs-offset-2 col-xs-8" type="submit" value="Registrarse" />
+            </div>
+          </fieldset>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>

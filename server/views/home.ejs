@@ -1,0 +1,344 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<link rel="stylesheet" href="css/main.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+
+<script>
+  function openNav() {
+    document.getElementById("mySidenav").style.width = "250px";
+  }
+
+  function closeNav() {
+    document.getElementById("mySidenav").style.width = "0";
+  }
+</script>
+
+<div id="mySidenav" class="sidenav">
+  <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+  <br>
+  <a href="/change-password?access_token=<%= accessToken %>">
+    <i class="glyphicon glyphicon-lock"></i> Cambiar contraseña
+    <i class="glyphicon glyphicon-chevron-right"></i>
+  </a>
+  <a href="/change-password?access_token=<%= accessToken %>">
+    <i class="glyphicon glyphicon-export"></i> Exportar historial
+  </a>
+  <a href="/logout?access_token=<%= accessToken %>">
+    <i class="glyphicon glyphicon-log-out"></i> Cerrar Sesión
+  </a>
+</div>
+
+<div class="well">
+  <h2>
+    <a class="btn btn-default" role="button" onclick="openNav()" href="#">
+      <i class="glyphicon glyphicon-menu-hamburger"></i>
+    </a>
+    <i class="glyphicon glyphicon-tree-deciduous"></i> Terapeutikos</h2>
+</div>
+<main class="container">
+  <ul class="nav nav-tabs" role="tablist">
+    <li class="nav-item active">
+      <a class="nav-link" id="service-tab" data-toggle="tab" href="#service" role="tab" aria-controls="service" aria-selected="true">Atenciones</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" id="payment-tab" data-toggle="tab" href="#payment" role="tab" aria-controls="payment" aria-selected="false">Pagos</a>
+    </li>
+  </ul>
+  <div class="tab-content">
+    <div class="tab-pane fade active in" id="service" role="tabpanel" aria-labelledby="service-tab">
+      <div class="list-group">
+        <a href="#demo1" class="list-group-item list-group-item-danger" data-toggle="collapse">
+          <h4 class="list-group-item-heading">Cliente A</h4>
+          <p class="list-group-item-text">12:34pm Abril 12 2018</p>
+        </a>
+        <div id="demo1" class="collapse panel">
+          <p class="list-group-item-text">
+            <i class="glyphicon glyphicon-user"></i>&nbsp;Juan Carlos
+          </p>
+          <p class="list-group-item-text">
+            <i class="glyphicon glyphicon-phone"></i>&nbsp;3138236782
+          </p>
+          <p class="list-group-item-text">
+            <i class="glyphicon glyphicon-envelope"></i>&nbsp;juan@gmail.com
+          </p>
+          <p class="list-group-item-text">
+            <a class="btn btn-success" role="button" href="mailto:juan@gmail.com?Subject=Terapeutikos">
+              <i class="glyphicon glyphicon-envelope"></i>&nbsp;Escribir
+            </a>
+            <a class="btn btn-success" role="button" href="mailto:juan@gmail.com?Subject=Terapeutikos">
+              <i class="glyphicon glyphicon-phone"></i>&nbsp;Llamar
+            </a>
+            <a class="btn btn-success" role="button" href="mailto:juan@gmail.com?Subject=Terapeutikos">
+              <i class="glyphicon glyphicon-user"></i>&nbsp;Atender
+            </a>
+          </p>
+        </div>
+
+        <div id="demo1" class="collapse panel">
+          <p class="list-group-item-text">
+            <div class="col-xs-8">
+              <i class="glyphicon glyphicon-user"></i>&nbsp;Juan Carlos
+            </div>
+            <span class="badgeBtn">
+              <a class="btn btn-success" role="button" href="mailto:juan@gmail.com?Subject=Terapeutikos">
+                Atender
+              </a>
+            </span>
+          </p>
+          <p class="list-group-item-text">
+            <div class="col-xs-8">
+              <i class="glyphicon glyphicon-phone"></i>&nbsp;3138236782
+            </div>
+            <span class="badgeBtn">
+              <a class="btn btn-success" role="button" href="tel:555-555-5555">
+                Llamar
+              </a>
+            </span>
+          </p>
+          <p class="list-group-item-text">
+            <div class="col-xs-8">
+              <i class="glyphicon glyphicon-envelope"></i>&nbsp;juan@gmail.com
+            </div>
+            <span class="badgeBtn">
+              <a class="btn btn-success" role="button" href="mailto:juan@gmail.com?Subject=Terapeutikos">
+                Escribir
+              </a>
+            </span>
+          </p>
+        </div>
+        <a href="#demo2" class="list-group-item list-group-item-danger" data-toggle="collapse">
+          <h4 class="list-group-item-heading">Cliente A</h4>
+          <p class="list-group-item-text">12:34pm</p>
+        </a>
+
+        <div id="demo2" class="collapse panel">
+          <p class="list-group-item-text">
+            <div class="col-xs-8">
+              <i class="glyphicon glyphicon-user"></i>&nbsp;Ismael Rueda
+            </div>
+            <span class="badgeBtn">
+              <a class="btn btn-success" role="button" href="mailto:juan@gmail.com?Subject=Terapeutikos">
+                Atender
+              </a>
+            </span>
+          </p>
+          <p class="list-group-item-text">
+            <div class="col-xs-8">
+              <i class="glyphicon glyphicon-phone"></i>&nbsp;3138236782
+            </div>
+            <span class="badgeBtn">
+              <a class="btn btn-success" role="button" href="tel:555-555-5555">
+                Llamar
+              </a>
+            </span>
+          </p>
+          <p class="list-group-item-text">
+            <div class="col-xs-8">
+              <i class="glyphicon glyphicon-envelope"></i>&nbsp;juan@gmail.com
+            </div>
+            <span class="badgeBtn">
+              <a class="btn btn-success" role="button" href="mailto:juan@gmail.com?Subject=Terapeutikos">
+                Escribir
+              </a>
+            </span>
+          </p>
+        </div>
+        <a href="#demo3" class="list-group-item list-group-item-danger" data-toggle="collapse">
+          <h4 class="list-group-item-heading">Cliente A</h4>
+          <p class="list-group-item-text">12:34pm</p>
+        </a>
+        <div id="demo3" class="collapse panel">
+          <p class="list-group-item-text">
+            <div class="col-xs-8">
+              <i class="glyphicon glyphicon-user"></i>&nbsp;Juan Carlos
+            </div>
+            <span class="badgeBtn">
+              <a class="btn btn-success" role="button" href="mailto:juan@gmail.com?Subject=Terapeutikos">
+                Atender
+              </a>
+            </span>
+          </p>
+          <p class="list-group-item-text">
+            <div class="col-xs-8">
+              <i class="glyphicon glyphicon-phone"></i>&nbsp;3138236782
+            </div>
+            <span class="badgeBtn">
+              <a class="btn btn-success" role="button" href="tel:555-555-5555">
+                Llamar
+              </a>
+            </span>
+          </p>
+          <p class="list-group-item-text">
+            <div class="col-xs-8">
+              <i class="glyphicon glyphicon-envelope"></i>&nbsp;juan@gmail.com
+            </div>
+            <span class="badgeBtn">
+              <a class="btn btn-success" role="button" href="mailto:juan@gmail.com?Subject=Terapeutikos">
+                Escribir
+              </a>
+            </span>
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- === PAYMENTS PANEL === -->
+    <div class="tab-pane fade" id="payment" role="tabpanel" aria-labelledby="payment-tab">
+      <a href="#newPaym" class="btn btn-info" role="button" data-toggle="collapse">
+        <i class="glyphicon glyphicon-plus"></i>Nuevo pago</button>
+      </a>
+      <div id="newPaym" class="collapse panel">
+        <form action="/api/Prepaid" method="post">
+          <div class="form-group">
+            <label class="control-label" for="company">Nombre del Cliente:</label>
+            <div class="input-group">
+              <span class="input-group-addon">
+                <i class="glyphicon glyphicon-briefcase"></i>
+              </span>
+              <input id="company" class="form-control" name="company" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label" for="company">Referencia Pago:</label>
+            <div class="input-group">
+              <span class="input-group-addon">
+                <i class="glyphicon glyphicon-tag"></i>
+              </span>
+              <input id="company" class="form-control" name="company" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label" for="company">Fecha del pago:</label>
+            <div class="input-group">
+              <span class="input-group-addon">
+                <i class="glyphicon glyphicon-calendar"></i>
+              </span>
+              <input id="company" class="form-control" name="company" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label" for="company">Número de Atenciones:</label>
+            <div class="input-group">
+              <span class="input-group-addon">
+                <i class="glyphicon glyphicon-check"></i>
+              </span>
+              <input id="company" class="form-control" name="company" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label" for="company">Vigencia:</label>
+            <div class="input-group">
+              <span class="input-group-addon">
+                <i class="glyphicon glyphicon-calendar"></i>
+              </span>
+              <input id="company" class="form-control" name="company" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label" for="company">Nombre del contacto:</label>
+            <div class="input-group">
+              <span class="input-group-addon">
+                <i class="glyphicon glyphicon-user"></i>
+              </span>
+              <input id="company" class="form-control" name="company" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label" for="company">Teléfono de contacto:</label>
+            <div class="input-group">
+              <span class="input-group-addon">
+                <i class="glyphicon glyphicon-phone"></i>
+              </span>
+              <input id="company" class="form-control" name="company" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label" for="company">Correo de Contacto:</label>
+            <div class="input-group">
+              <span class="input-group-addon">
+                <i class="glyphicon glyphicon-envelope"></i>
+              </span>
+              <input id="company" class="form-control" name="company" />
+            </div>
+          </div>
+          <div class="form-group">
+            <button class="btn btn-success" type="submit">Guardar y Enviar Recibo</button>
+          </div>
+        </form>
+      </div>
+      <div class="list-group">
+        <a href="#paym1" class="list-group-item list-group-item-info" data-toggle="collapse">
+          <span class="badge"> 4/5</span>
+          <h4 class="list-group-item-heading"> Cliente A </h4>
+          <p class="list-group-item-text">Vigente hasta Dic 12 2018</p>
+        </a>
+        <div id="paym1" class="collapse panel">
+          <p class="list-group-item-text">
+            <i class="glyphicon glyphicon-check"></i>&nbsp;4 de 5 atenciones realizadas
+          </p>
+          <p class="list-group-item-text">
+            <i class="glyphicon glyphicon-tag"></i>&nbsp;Ref.Pago: 72342398477234
+          </p>
+          <p class="list-group-item-text">
+            <i class="glyphicon glyphicon-user"></i>&nbsp;Juan Carlos
+          </p>
+          <p class="list-group-item-text">
+            <i class="glyphicon glyphicon-phone"></i>&nbsp;3138236782
+          </p>
+          <p class="list-group-item-text">
+            <i class="glyphicon glyphicon-envelope"></i>&nbsp;juan@gmail.com
+          </p>
+          <p class="list-group-item-text">
+            <a class="btn btn-success" role="button" href="mailto:juan@gmail.com?Subject=Terapeutikos">
+              <i class="glyphicon glyphicon-envelope"></i>&nbsp;Escribir
+            </a>
+            <a class="btn btn-success" role="button" href="mailto:juan@gmail.com?Subject=Terapeutikos">
+              <i class="glyphicon glyphicon-phone"></i>&nbsp;Llamar
+            </a>
+            <a class="btn btn-success" role="button" href="mailto:juan@gmail.com?Subject=Terapeutikos">
+              <i class="glyphicon glyphicon-tag"></i>&nbsp;Reenviar
+            </a>
+          </p>
+        </div>
+
+        <a href="#paym2" class="list-group-item list-group-item-info" data-toggle="collapse">
+          <h4 class="list-group-item-heading">Cliente A</h4>
+          <p class="list-group-item-text">12:34pm</p>
+        </a>
+        <div id="paym2" class="collapse panel">
+          <p class="list-group-item-text">
+            <i class="glyphicon glyphicon-user"></i>&nbsp;Ana María Duarte Oliva
+          </p>
+          <p class="list-group-item-text">
+            <i class="glyphicon glyphicon-phone"></i>&nbsp;3138236782
+          </p>
+          <p class="list-group-item-text">
+            <i class="glyphicon glyphicon-envelope"></i>&nbsp;juan@gmail.com
+          </p>
+        </div>
+
+
+        <a href="#paym3" class="list-group-item list-group-item-info" data-toggle="collapse">
+          <h4 class="list-group-item-heading">Cliente A</h4>
+          <p class="list-group-item-text">12:34pm</p>
+        </a>
+        <div id="paym3" class="collapse panel">
+          <p class="list-group-item-text">
+            <div class="col-xs-8">
+              <i class="glyphicon glyphicon-user"></i>&nbsp;Juan Carlos
+            </div>
+            <span class="badgeBtn">
+              <a class="btn btn-success" role="button" href="mailto:juan@gmail.com?Subject=Terapeutikos">
+                Atender
+              </a>
+            </span>
+          </p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</main>

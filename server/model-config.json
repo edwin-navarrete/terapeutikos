@@ -1,0 +1,46 @@
+{
+  "_meta": {
+    "sources": [
+      "loopback/common/models",
+      "loopback/server/models",
+      "../common/models",
+      "./models"
+    ]
+  },
+  "User": {
+    "dataSource": "mongo",
+    "public": false
+  },
+  "AccessToken": {
+    "dataSource": "mem",
+    "public": false
+  },
+  "ACL": {
+    "dataSource": "mongo",
+    "public": false
+  },
+  "RoleMapping": {
+    "dataSource": "mongo",
+    "public": false
+  },
+  "Role": {
+    "dataSource": "mem",
+    "public": false
+  },
+  "Email": {
+    "dataSource": "emailDs"
+  },
+  "user": {
+    "dataSource": "mongo",
+    "public": true,
+    "options": {}
+  },
+  "Prepaid": {
+    "dataSource": "mongo",
+    "public": true
+  },
+  "ServiceLog": {
+    "dataSource": "mongo",
+    "public": true
+  }
+}

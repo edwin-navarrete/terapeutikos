@@ -1,0 +1,72 @@
+{
+  "name": "Prepaid",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "company": {
+      "type": "string",
+      "required": true
+    },
+    "paymentRef": {
+      "type": "string",
+      "required": true
+    },
+    "paymentDate": {
+      "type": "date",
+      "required": true
+    },
+    "totalUnits": {
+      "type": "number",
+      "required": true
+    },
+    "contactEmail": {
+      "type": "string",
+      "required": true
+    },
+    "contactRequest": {
+      "type": "object"
+    },    
+    "servedUnits": {
+      "type": "number"
+    },
+    "status": {
+      "type": "string",
+      "default": "ready"
+    },
+    "updated":{
+      "type": "date",  
+      "defaultFn": "now"
+    }
+  },
+  "validations": [],
+  "relations": {
+		"serviceLogs": {
+			"type": "hasMany",
+			"model": "ServiceLog",
+			"foreignKey": "prepaidId"
+		}    
+  },
+  "acls": [
+    {
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "DENY"
+    },
+    {
+      "principalType": "ROLE",
+      "principalId": "$authenticated",
+      "permission": "ALLOW"
+    },
+    {
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "ALLOW",
+      "accessType": "EXECUTE",
+      "property": "request"
+    }
+  ],
+  "methods": {}
+}
