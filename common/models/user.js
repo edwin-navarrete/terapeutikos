@@ -48,8 +48,8 @@ module.exports = function(User) {
   //send password reset link when requested
   User.on('resetPasswordRequest', function(info) {
     var url = 'http://' + config.host + ':' + config.port + '/reset-password';
-    var html = 'Click <a href="' + url + '?access_token=' +
-        info.accessToken.id + '">here</a> to reset your password';
+    var html = 'Clic <a href="' + url + '?access_token=' +
+        info.accessToken.id + '">aquí</a> para reiniciar su contraseña';
 
     User.app.models.Email.send({
       to: info.email,
@@ -65,20 +65,20 @@ module.exports = function(User) {
   //render UI page after password change
   User.afterRemote('changePassword', function(context, user, next) {
     context.res.render('response', {
-      title: 'Password changed successfully',
-      content: 'Please login again with new password',
+      title: 'Contraseña cambiada exitosamente',
+      content: 'Por favor ingrese de nuevo con la nueva contraseña',
       redirectTo: '/',
-      redirectToLinkText: 'Log in'
+      redirectToLinkText: 'Ingresar'
     });
   });
 
   //render UI page after password reset
   User.afterRemote('setPassword', function(context, user, next) {
     context.res.render('response', {
-      title: 'Password reset success',
-      content: 'Your password has been reset successfully',
+      title: 'Reinicio exitoso de contraseña',
+      content: 'Tu contraseña se ha reiniciado correctamente',
       redirectTo: '/',
-      redirectToLinkText: 'Log in'
+      redirectToLinkText: 'Ingresar'
     });
   });
 };

@@ -1,13 +1,30 @@
 'use strict';
 
 var app = require('../../server/server');
+var ejs = require('ejs');
 
 module.exports = function(Prepaid) {
+
   Prepaid.observe('before save', function updateTimestamp(ctx, next) {
     const now = new Date();
     if (ctx.instance) ctx.instance.updated = now;
     else ctx.data.updated = now;
-    next();
+    var data = ctx.instance || ctx.data
+    // Send receipt to client
+    ejs.renderFile('./server/views/receipt.ejs', data, function(err, html) {
+      if (!err) {
+        app.models.Email.send({
+          to: data.contactEmail,
+          from: "terapeutikos@gmail.com",
+          subject: 'Bienvenido a Terapéutikos',
+          html: html
+        }, function(err) {
+          if (err) return console.log('> error sending receipt email');
+          console.log('> sending receipt email to:', info.email);
+        });
+      }
+      next(err);
+    })
   });
 
   Prepaid.prototype.serve = function(options, cb) {

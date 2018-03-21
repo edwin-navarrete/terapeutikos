@@ -18,6 +18,10 @@
       "type": "date",
       "required": true
     },
+    "term": {
+      "type": "date",
+      "required": true
+    },
     "totalUnits": {
       "type": "number",
       "required": true
@@ -26,12 +30,12 @@
       "type": "string",
       "required": true
     },
+    "contactName": "string",
+    "contactPhone": "string",
     "contactRequest": {
       "type": "object"
     },    
-    "servedUnits": {
-      "type": "number"
-    },
+    "servedUnits": "number",
     "status": {
       "type": "string",
       "default": "ready"

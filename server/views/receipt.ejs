@@ -1,0 +1,50 @@
+<div style="font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif">
+  <table align="center" style="width:100%;background-color:rgb(208, 203, 241)">
+    <tbody>
+      <tr>
+        <th></th>
+        <th></th>
+        <th></th>
+      </tr>
+      <tr>
+        <th></th>
+        <th align="center" style="width:300px;background-color:white">
+          <h1>Terapeutikos</h1>
+        </th>
+        <th></th>
+      </tr>
+      <tr>
+        <td></td>
+        <td style="background-color:white">
+          <div style="margin:20px">
+            <h3>Bienvenido a nuestros servicios!</h3>
+            <p>Confirma que tu información es correcta:</p>
+            <p>
+              <strong>Número de atenciones:</strong>
+              <%= totalUnits %>
+                <br>
+                <strong>Vigencia del contrato:</strong>
+                <%= term.toISOString().split('T')[0] %>
+                  <br>
+                  <strong>Referencia de pago:</strong>
+                  <%= paymentRef %>
+                    <br>
+            </p>
+            <p>Para solicitar atención ingresa en nuestro portal dando click
+              <strong>
+                <a href="#">aquí</a>
+              </strong>
+            </p>
+            <p>Gracias por elegirnos.</p>
+          </div>
+        </td>
+        <td></td>
+      </tr>
+      <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+</div>

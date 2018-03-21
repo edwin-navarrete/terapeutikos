@@ -30,11 +30,11 @@ module.exports = function(app) {
       password: req.body.password
     }, 'user', function(err, token) {
       if (err) {
-        if(err.details && err.code === 'LOGIN_FAILED_EMAIL_NOT_VERIFIED'){
+        if (err.details && err.code === 'LOGIN_FAILED_EMAIL_NOT_VERIFIED') {
           res.render('reponseToTriggerEmail', {
             title: 'Falló el Ingreso',
             content: err,
-            redirectToEmail: '/api/users/'+ err.details.userId + '/verify',
+            redirectToEmail: '/api/users/' + err.details.userId + '/verify',
             redirectTo: '/',
             redirectToLinkText: 'Clic acá',
             userId: err.details.userId
@@ -49,9 +49,16 @@ module.exports = function(app) {
         }
         return;
       }
-      res.render('home', {
-        accessToken: token.id
-      });
+      app.models.Prepaid.find(
+        { filter: { where: { } } },
+        function(err, payments) {
+          if (err) return console.error(err);
+          res.render('home', {
+            accessToken: token.id,
+            services: payments.filter((p)=> p.contactRequest),
+            payments: payments
+          });
+        });
     });
   });
 
@@ -79,20 +86,27 @@ module.exports = function(app) {
       });
     });
   });
-  
+
   //show home 
   app.get('/home', function(req, res, next) {
     if (!req.accessToken) return res.sendStatus(401);
-    res.render('home', {
-      accessToken: req.accessToken.id
-    });  
-  }); 
+    app.models.Prepaid.find(
+      { filter: { where: { } } },
+      function(err, payments) {
+        if (err) return console.error(err);
+        res.render('home', {
+          accessToken: req.accessToken.id,
+          services: payments.filter((p)=> p.contactRequest),
+          payments: payments
+        });
+      });
+  });
 
   //show password reset form
   app.get('/reset-password', function(req, res, next) {
     if (!req.accessToken) return res.sendStatus(401);
     res.render('password-reset', {
-      redirectUrl: '/api/users/reset-password?access_token='+
+      redirectUrl: '/api/users/reset-password?access_token=' +
         req.accessToken.id
     });
   });
@@ -103,12 +117,12 @@ module.exports = function(app) {
     res.render('password-change', {
       accessToken: req.accessToken.id
     });
-  });  
+  });
 
   app.get('/service_request', function(req, res, next) {
     res.render('service_request', {
       payment: req.query.payment
     });
-  });  
-  
+  });
+
 };
