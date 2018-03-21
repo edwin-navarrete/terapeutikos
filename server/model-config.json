@@ -30,7 +30,7 @@
   "Email": {
     "dataSource": "emailDs"
   },
-  "user": {
+  "Agent": {
     "dataSource": "mongo",
     "public": true,
     "options": {}

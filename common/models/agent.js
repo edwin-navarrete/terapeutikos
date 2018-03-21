@@ -7,9 +7,9 @@ var config = require('../../server/config.json');
 var path = require('path');
 var senderAddress = "noreply@loopback.com"; //FIXME Replace this address with your actual address
 
-module.exports = function(User) {
+module.exports = function(Agent) {
   //send verification email after registration
-  User.afterRemote('create', function(context, user, next) {
+  Agent.afterRemote('create', function(context, user, next) {
     var options = {
       type: 'email',
       to: user.email,
@@ -22,7 +22,7 @@ module.exports = function(User) {
 
     user.verify(options, function(err, response) {
       if (err) {
-        User.deleteById(user.id);
+        Agent.deleteById(user.id);
         return next(err);
       }
       context.res.render('response', {
@@ -36,7 +36,7 @@ module.exports = function(User) {
   });
   
   // Method to render
-  User.afterRemote('prototype.verify', function(context, user, next) {
+  Agent.afterRemote('prototype.verify', function(context, user, next) {
     context.res.render('response', {
       title: 'Un enlace para confirmar tu identidad ha sido exitosamente enviado a tu correo',
       content: 'Por favor verifica tu correo y dale clic en el enlace de verificación antes de ingresar al sistema',
@@ -46,12 +46,12 @@ module.exports = function(User) {
   });
 
   //send password reset link when requested
-  User.on('resetPasswordRequest', function(info) {
+  Agent.on('resetPasswordRequest', function(info) {
     var url = 'http://' + config.host + ':' + config.port + '/reset-password';
     var html = 'Clic <a href="' + url + '?access_token=' +
         info.accessToken.id + '">aquí</a> para reiniciar su contraseña';
 
-    User.app.models.Email.send({
+    Agent.app.models.Email.send({
       to: info.email,
       from: senderAddress,
       subject: 'Password reset',
@@ -63,7 +63,7 @@ module.exports = function(User) {
   });
 
   //render UI page after password change
-  User.afterRemote('changePassword', function(context, user, next) {
+  Agent.afterRemote('changePassword', function(context, user, next) {
     context.res.render('response', {
       title: 'Contraseña cambiada exitosamente',
       content: 'Por favor ingrese de nuevo con la nueva contraseña',
@@ -73,7 +73,7 @@ module.exports = function(User) {
   });
 
   //render UI page after password reset
-  User.afterRemote('setPassword', function(context, user, next) {
+  Agent.afterRemote('setPassword', function(context, user, next) {
     context.res.render('response', {
       title: 'Reinicio exitoso de contraseña',
       content: 'Tu contraseña se ha reiniciado correctamente',

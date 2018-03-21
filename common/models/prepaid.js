@@ -35,7 +35,7 @@ module.exports = function(Prepaid) {
     if (self.status != 'waiting') {
       return cb(null, self);
     }
-    app.models.User.findById(userId, function(err, usr) {
+    app.models.Agent.findById(userId, function(err, usr) {
       console.log('Served by ', usr);
       const now = new Date();
       self.servedUnits += 1;

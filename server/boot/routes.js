@@ -7,7 +7,7 @@ var dsConfig = require('../datasources.json');
 var path = require('path');
 
 module.exports = function(app) {
-  var User = app.models.user;
+  var Agent = app.models.Agent;
 
   //login page
   app.get('/', function(req, res) {
@@ -25,7 +25,7 @@ module.exports = function(app) {
 
   //log a user in
   app.post('/login', function(req, res) {
-    User.login({
+    Agent.login({
       email: req.body.email,
       password: req.body.password
     }, 'user', function(err, token) {
@@ -65,7 +65,7 @@ module.exports = function(app) {
   //log a user out
   app.get('/logout', function(req, res, next) {
     if (!req.accessToken) return res.sendStatus(401);
-    User.logout(req.accessToken.id, function(err) {
+    Agent.logout(req.accessToken.id, function(err) {
       if (err) return next(err);
       res.redirect('/');
     });
@@ -73,7 +73,7 @@ module.exports = function(app) {
 
   //send an email with instructions to reset an existing user's password
   app.post('/request-password-reset', function(req, res, next) {
-    User.resetPassword({
+    Agent.resetPassword({
       email: req.body.email
     }, function(err) {
       if (err) return res.status(401).send(err);
