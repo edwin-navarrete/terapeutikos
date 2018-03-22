@@ -6,61 +6,60 @@
 
 <section class="container">
   <div class="col-md-offset-3 col-md-6">
-    <div class="well">
-      <h1>
-        <i class="glyphicon glyphicon-tree-deciduous"></i> Terapeutikos</h1>
-    </div>
-    <form action="/api/users/prepaid/<%= payment %>/request" method="post">
-      <fieldset>
-        <legend>Solicitud de Atención</legend>
-        <p>Si necesitas atención ahora por favor diligencia la siguiente información de contacto:</p>
-        <div class="form-group">
-          <label class="control-label" for="name">Nombre:</label>
-          <div class="input-group">
-            <span class="input-group-addon">
-              <i class="glyphicon glyphicon-user"></i>
-            </span>
-            <input id="name" class="form-control" name="name" />
-          </div>
-        </div>
-        <div class="form-group">
-          <label class="control-label" for="phone">Teléfono:</label>
-          <div class="input-group">
-            <span class="input-group-addon">
-              <i class="glyphicon glyphicon-phone"></i>
-            </span>
-            <input id="phone" class="form-control" name="phone" />
-          </div>
-        </div>
-        <div class="form-group">
-          <label class="control-label" for="email">Correo:</label>
-          <div class="input-group">
-            <span class="input-group-addon">
-              <i class="glyphicon glyphicon-envelope"></i>
-            </span>
-            <input id="email" class="form-control" name="email" />
-          </div>
-        </div>
-        <div class="form-group">
-          <label class="control-label" for="contactBy">Tipo de atención:</label>
-          <div class="radio">
-            <label>
-              <input type="radio" name="contactBy" value="video">Videollamada</label>
-          </div>
-          <div class="radio">
-            <label>
-              <input type="radio" name="contactBy" value="chat">Chat</label>
-          </div>
-          <div class="radio">
-            <label>
-              <input type="radio" name="contactBy" value="call">Llamada</label>
-          </div>
-        </div>
+    <%- include('header') %>
 
-        <div class="form-group">
-          <input class="btn btn-primary col-xs-offset-2 col-xs-8" type="submit" value="Solicitar atención" />
-        </div>
-      </fieldset>
-    </form>
+      <form action="/service-request" method="post">
+        <fieldset>
+          <legend>Solicitud de Atención</legend>
+          <p>Si necesitas atención ahora por favor diligencia la siguiente información de contacto:</p>
+          <div class="form-group">
+            <input type="hidden" name="payment" value="<%= payment %>">
+            <label class="control-label" for="name">Nombre:</label>
+            <div class="input-group">
+              <span class="input-group-addon">
+                <i class="glyphicon glyphicon-user"></i>
+              </span>
+              <input required id="name" class="form-control" name="name" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label" for="phone">Teléfono:</label>
+            <div class="input-group">
+              <span class="input-group-addon">
+                <i class="glyphicon glyphicon-phone"></i>
+              </span>
+              <input type="tel" id="phone" class="form-control" name="phone" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label" for="email">Correo:</label>
+            <div class="input-group">
+              <span class="input-group-addon">
+                <i class="glyphicon glyphicon-envelope"></i>
+              </span>
+              <input type="email" id="email" class="form-control" name="email" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label" for="contactBy">Tipo de atención:</label>
+            <div class="radio">
+              <label>
+                <input type="radio" name="contactBy" checked required value="video">Videollamada</label>
+            </div>
+            <div class="radio">
+              <label>
+                <input type="radio" name="contactBy" required value="chat">Chat</label>
+            </div>
+            <div class="radio">
+              <label>
+                <input type="radio" name="contactBy" required value="call">Llamada</label>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <input class="btn btn-primary col-xs-offset-2 col-xs-8" type="submit" value="Solicitar atención" />
+          </div>
+        </fieldset>
+      </form>
   </div>
 </section>

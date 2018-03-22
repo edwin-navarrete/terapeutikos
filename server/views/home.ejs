@@ -31,13 +31,8 @@
   </a>
 </div>
 
-<div class="well">
-  <h2>
-    <a class="btn btn-default" role="button" onclick="openNav()" href="#">
-      <i class="glyphicon glyphicon-menu-hamburger"></i>
-    </a>
-    <i class="glyphicon glyphicon-tree-deciduous"></i> Terapeutikos</h2>
-</div>
+<%- include('header', { menu: true }) %>
+
 <main class="container">
   <ul class="nav nav-tabs" role="tablist">
     <li class="nav-item active">
@@ -59,12 +54,9 @@
 
     <!-- === PAYMENTS PANEL === -->
     <div class="tab-pane fade" id="payment" role="tabpanel" aria-labelledby="payment-tab">
-      <a href="#newPaym" class="btn btn-info" role="button" data-toggle="collapse">
+      <a href="/new-payment?access_token=<%= accessToken %>" class="btn btn-info" role="button" >
         <i class="glyphicon glyphicon-plus"></i>Nuevo pago</button>
       </a>
-      <div id="newPaym" class="collapse panel">
-          <%- include('payment_new'); %>
-      </div>      
       <div class="list-group">
           <% payments.forEach(function(paym){ %>
             <%- include('payment_item', {paym: paym}); %>

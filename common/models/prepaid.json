@@ -15,8 +15,7 @@
       "required": true
     },
     "paymentDate": {
-      "type": "date",
-      "required": true
+      "type": "date"
     },
     "term": {
       "type": "date",
@@ -35,7 +34,10 @@
     "contactRequest": {
       "type": "object"
     },    
-    "servedUnits": "number",
+    "servedUnits": {
+      "type": "number",
+      "default": 0
+    },
     "status": {
       "type": "string",
       "default": "ready"

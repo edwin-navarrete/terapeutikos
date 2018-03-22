@@ -9,22 +9,30 @@ module.exports = function(Prepaid) {
     const now = new Date();
     if (ctx.instance) ctx.instance.updated = now;
     else ctx.data.updated = now;
+    next();
+  });
+
+  Prepaid.observe('after save', function updateTimestamp(ctx, next) {
     var data = ctx.instance || ctx.data
-    // Send receipt to client
-    ejs.renderFile('./server/views/receipt.ejs', data, function(err, html) {
-      if (!err) {
+    // Send receipt to client      
+    var host = (app && app.get('host')) || 'localhost';
+    var port = (app && app.get('port')) || 3000;
+    data.requestUrl = `http://${host}:${port}/service_request?payment=${data.id}`;
+    console.log('renderDat', data);
+    ctx.isNewInstance && ejs.renderFile('./server/views/receipt.ejs', data,
+      function(err, html) {
+        if (err) return next(err)
+        console.log('> sending receipt email to:', data.contactEmail);
         app.models.Email.send({
           to: data.contactEmail,
           from: "terapeutikos@gmail.com",
           subject: 'Bienvenido a Terapéutikos',
           html: html
         }, function(err) {
-          if (err) return console.log('> error sending receipt email');
-          console.log('> sending receipt email to:', info.email);
+          if (err) console.error('> error sending receipt email', err);
+          next(err);
         });
-      }
-      next(err);
-    })
+      })
   });
 
   Prepaid.prototype.serve = function(options, cb) {
@@ -60,16 +68,15 @@ module.exports = function(Prepaid) {
     });
   };
 
-  Prepaid.prototype.request = function(name, phone, email, cb) {
+  Prepaid.prototype.request = function(req, cb) {
     if (this.status == 'waiting' || this.status == 'finished')
       return cb(null, this);
 
     // TODO Notify all agents
     const now = new Date();
     this.status = 'waiting';
-    this.contactRequest = {
-      name: name, phone: phone, email: email,
-    };
+    req.ts = now;
+    this.contactRequest = req;
     this.serviceLogs.build({
       request: this.contactRequest,
       timestamp: now,
@@ -77,28 +84,7 @@ module.exports = function(Prepaid) {
     this.save();
     cb(null, this);
   };
-  Prepaid.remoteMethod(
-    'prototype.request', {
-      http: {
-        path: '/request',
-        verb: 'post',
-      },
-      accepts: [
-        {
-          arg: 'name', type: 'string',
-        },
-        {
-          arg: 'phone', type: 'string',
-        },
-        {
-          arg: 'email', type: 'string',
-        }],
-      returns: {
-        arg: 'status',
-        type: 'object',
-      },
-    }
-  );
+
   Prepaid.remoteMethod(
     'prototype.serve', {
       accepts: [{

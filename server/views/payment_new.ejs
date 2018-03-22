@@ -1,77 +1,92 @@
-<form action="/api/Prepaid" method="post">
-  <div class="form-group col-sm-6">
-    <label class="control-label" for="company">Nombre del Cliente:</label>
-    <div class="input-group">
-      <span class="input-group-addon">
-        <i class="glyphicon glyphicon-briefcase"></i>
-      </span>
-      <input id="company" class="form-control" name="company" />
-    </div>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+<section class="container">
+  <div class="col-md-offset-3 col-md-6">
+    <%- include('header') %>
+
+    <a href="\home?access_token=<%= accessToken %>">
+      <i class="glyphicon glyphicon-chevron-left"></i> Volver al inicio</a>
+    <form action="/payment-save" method="post">
+      <input type="hidden" name="access_token" value="<%= accessToken %>">
+      <div class="form-group col-sm-6">
+        <label class="control-label" for="company">Nombre del Cliente:</label>
+        <div class="input-group">
+          <span class="input-group-addon">
+            <i class="glyphicon glyphicon-briefcase"></i>
+          </span>
+          <input required id="company" class="form-control" name="company" />
+        </div>
+      </div>
+      <div class="form-group col-sm-6">
+        <label class="control-label" for="paymentRef">Referencia Pago:</label>
+        <div class="input-group">
+          <span class="input-group-addon">
+            <i class="glyphicon glyphicon-tag"></i>
+          </span>
+          <input required id="paymentRef" class="form-control" name="paymentRef" />
+        </div>
+      </div>
+      <div class="form-group col-sm-6">
+        <label class="control-label" for="paymentDate">Fecha del pago:</label>
+        <div class="input-group">
+          <span class="input-group-addon">
+            <i class="glyphicon glyphicon-calendar"></i>
+          </span>
+          <input required type="date" id="paymentDate" class="form-control" name="paymentDate" />
+        </div>
+      </div>
+      <div class="form-group col-sm-6">
+        <label class="control-label" for="totalUnits">Número de Atenciones:</label>
+        <div class="input-group">
+          <span class="input-group-addon">
+            <i class="glyphicon glyphicon-check"></i>
+          </span>
+          <input required type="number" id="totalUnits" class="form-control" name="totalUnits" />
+        </div>
+      </div>
+      <div class="form-group col-sm-6">
+        <label class="control-label" for="term">Vigencia:</label>
+        <div class="input-group">
+          <span class="input-group-addon">
+            <i class="glyphicon glyphicon-calendar"></i>
+          </span>
+          <input required type="date" id="term" class="form-control" name="term" />
+        </div>
+      </div>
+      <div class="form-group col-sm-6">
+        <label class="control-label" for="contactName">Nombre del contacto:</label>
+        <div class="input-group">
+          <span class="input-group-addon">
+            <i class="glyphicon glyphicon-user"></i>
+          </span>
+          <input id="contactName" class="form-control" name="contactName" />
+        </div>
+      </div>
+      <div class="form-group col-sm-6">
+        <label class="control-label" for="contactPhone">Teléfono de contacto:</label>
+        <div class="input-group">
+          <span class="input-group-addon">
+            <i class="glyphicon glyphicon-phone"></i>
+          </span>
+          <input type="tel" id="contactPhone" class="form-control" name="contactPhone" />
+        </div>
+      </div>
+      <div class="form-group col-sm-6">
+        <label class="control-label" for="contactEmail">Correo de Contacto:</label>
+        <div class="input-group">
+          <span class="input-group-addon">
+            <i class="glyphicon glyphicon-envelope"></i>
+          </span>
+          <input required type="email" id="contactEmail" class="form-control" name="contactEmail" />
+        </div>
+      </div>
+      <div class="form-group">
+        <button class="btn btn-success" type="submit">Guardar y Enviar Recibo</button>
+      </div>
+    </form>
   </div>
-  <div class="form-group col-sm-6">
-    <label class="control-label" for="company">Referencia Pago:</label>
-    <div class="input-group">
-      <span class="input-group-addon">
-        <i class="glyphicon glyphicon-tag"></i>
-      </span>
-      <input id="company" class="form-control" name="company" />
-    </div>
-  </div>
-  <div class="form-group col-sm-6">
-    <label class="control-label" for="company">Fecha del pago:</label>
-    <div class="input-group">
-      <span class="input-group-addon">
-        <i class="glyphicon glyphicon-calendar"></i>
-      </span>
-      <input id="company" class="form-control" name="company" />
-    </div>
-  </div>
-  <div class="form-group col-sm-6">
-    <label class="control-label" for="company">Número de Atenciones:</label>
-    <div class="input-group">
-      <span class="input-group-addon">
-        <i class="glyphicon glyphicon-check"></i>
-      </span>
-      <input id="company" class="form-control" name="company" />
-    </div>
-  </div>
-  <div class="form-group col-sm-6">
-    <label class="control-label" for="company">Vigencia:</label>
-    <div class="input-group">
-      <span class="input-group-addon">
-        <i class="glyphicon glyphicon-calendar"></i>
-      </span>
-      <input id="company" class="form-control" name="company" />
-    </div>
-  </div>
-  <div class="form-group col-sm-6">
-    <label class="control-label" for="company">Nombre del contacto:</label>
-    <div class="input-group">
-      <span class="input-group-addon">
-        <i class="glyphicon glyphicon-user"></i>
-      </span>
-      <input id="company" class="form-control" name="company" />
-    </div>
-  </div>
-  <div class="form-group col-sm-6">
-    <label class="control-label" for="company">Teléfono de contacto:</label>
-    <div class="input-group">
-      <span class="input-group-addon">
-        <i class="glyphicon glyphicon-phone"></i>
-      </span>
-      <input id="company" class="form-control" name="company" />
-    </div>
-  </div>
-  <div class="form-group col-sm-6">
-    <label class="control-label" for="company">Correo de Contacto:</label>
-    <div class="input-group">
-      <span class="input-group-addon">
-        <i class="glyphicon glyphicon-envelope"></i>
-      </span>
-      <input id="company" class="form-control" name="company" />
-    </div>
-  </div>
-  <div class="form-group">
-    <button class="btn btn-success" type="submit">Guardar y Enviar Recibo</button>
-  </div>
-</form>
+</section>
