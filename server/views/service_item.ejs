@@ -1,37 +1,48 @@
-<a href="#sr<%= srv.id %>" class="list-group-item list-group-item-warning" data-toggle="collapse">
+<a href="#sr<%= srv.id %>" class="list-group-item <% if (srv.contactRequest){ %> list-group-item-warning <% } %>" data-toggle="collapse">
   <h4 class="list-group-item-heading">
     <%= srv.company %>
   </h4>
   <p class="list-group-item-text">
-    <%= srv.contactRequest.ts.toLocaleString() %>
+    <% if (srv.contactRequest){ %>
+      <%= srv.contactRequest.ts.toLocaleString() %> (Hace
+      <%= srv.elapsed %> minutos)
+    <% } else { %>
+      Atendido por <%= srv.servedBy %>, <%= srv.servedOn.toLocaleString() %>
+    <% } %>
   </p>
 </a>
-<div id="sr<%= srv.id %>" class="collapse panel">
-  <p class="list-group-item-text">
-    <i class="glyphicon glyphicon-user"></i>&nbsp;
-    <%= srv.contactRequest.name %>
-  </p>
-  <p class="list-group-item-text">
-    <i class="glyphicon glyphicon-phone"></i>&nbsp;
-    <%= srv.contactRequest.phone %>
-  </p>
-  <p class="list-group-item-text">
-    <i class="glyphicon glyphicon-envelope"></i>&nbsp;
-    <%= srv.contactRequest.email %>
-  </p>
-  <p class="list-group-item-text">
-    <i class="glyphicon glyphicon-headphones"></i>&nbsp;Contactar por:
-    <%= srv.contactRequest.contactBy %>
-  </p>
-  <p class="list-group-item-text">
-    <a class="btn btn-success" role="button" href="mailto:<%= srv.contactRequest.email %>?Subject=Terapeutikos">
-      <i class="glyphicon glyphicon-envelope"></i>&nbsp;Escribir
-    </a>
-    <a class="btn btn-success" role="button" href="tel:<%= srv.contactRequest.phone %>">
-      <i class="glyphicon glyphicon-phone"></i>&nbsp;Llamar
-    </a>
-    <a class="btn btn-success" role="button" href="#">
-      <i class="glyphicon glyphicon-comment"></i>&nbsp;Atender
-    </a>
-  </p>
-</div>
+<% if (srv.contactRequest){ %>
+  <div id="sr<%= srv.id %>" class="collapse panel">
+      <p class="list-group-item-text">
+        <i class="glyphicon glyphicon-user"></i>&nbsp;
+        <%= srv.contactRequest.name %>
+      </p>
+      <p class="list-group-item-text">
+        <i class="glyphicon glyphicon-phone"></i>&nbsp;
+        <%= srv.contactRequest.phone %>
+      </p>
+      <p class="list-group-item-text">
+        <i class="glyphicon glyphicon-envelope"></i>&nbsp;
+        <%= srv.contactRequest.email %>
+      </p>
+      <p class="list-group-item-text">
+        <i class="glyphicon glyphicon-headphones"></i>&nbsp;Contactar por:
+        <%= srv.contactRequest.contactBy %>
+      </p>
+      <p class="list-group-item-text">
+        <form action="/service-serve">
+          <input type="hidden" name="accessToken" value="<%= accessToken %>">
+          <input type="hidden" name="payment" value="<%= srv.id %>">
+          <a class="serveBtn btn btn-success" role="button" href="mailto:<%= srv.contactRequest.email %>?Subject=Terapeutikos">
+            <i class="glyphicon glyphicon-envelope"></i>&nbsp;Escribir
+          </a>
+          <a class="btn btn-success" role="button" href="tel:<%= srv.contactRequest.phone %>">
+            <i class="serveBtn glyphicon glyphicon-phone"></i>&nbsp;Llamar
+          </a>
+          <button class="btn btn-success" type="submit">
+            <i class="glyphicon glyphicon-comment"></i>&nbsp;Atender
+          </button>
+        </form>
+      </p>
+    </div>
+  <% } %>

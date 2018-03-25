@@ -40,7 +40,7 @@ module.exports = function(Prepaid) {
     const token = options && options.accessToken;
     const userId = token && token.userId;
     const self = this;
-    if (self.status != 'waiting') {
+    if (!self.contactRequest) {
       return cb(null, self);
     }
     app.models.Agent.findById(userId, function(err, usr) {
@@ -59,6 +59,8 @@ module.exports = function(Prepaid) {
       }
       const request = self.contactRequest;
       self.contactRequest = null;
+      self.servedBy = usr.email;
+      self.servedOn = now;
       self.save();
       // TODO notify customer
       cb(null, Object.assign(self, {
@@ -69,8 +71,9 @@ module.exports = function(Prepaid) {
   };
 
   Prepaid.prototype.request = function(req, cb) {
-    if (this.status == 'waiting' || this.status == 'finished')
+    if (this.status == 'waiting' || this.status == 'finished') {
       return cb(null, this);
+    }
 
     // TODO Notify all agents
     const now = new Date();

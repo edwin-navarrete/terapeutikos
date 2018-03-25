@@ -49,16 +49,7 @@ module.exports = function(app) {
         }
         return;
       }
-      app.models.Prepaid.find(
-        { filter: { where: {} } },
-        function(err, payments) {
-          if (err) return console.error(err);
-          res.render('home', {
-            accessToken: token.id,
-            services: payments.filter((p) => p.contactRequest),
-            payments: payments
-          });
-        });
+      res.redirect('/home?access_token=' + token.id)
     });
   });
 
@@ -89,14 +80,30 @@ module.exports = function(app) {
 
   //show home 
   app.get('/home', function(req, res, next) {
-    if (!req.accessToken) return res.sendStatus(401);
+    if (!req.accessToken) return res.redirect('/');
     app.models.Prepaid.find(
-      { filter: { where: {} } },
+      { filter: { where: {} }, order: 'updated DESC' },
       function(err, payments) {
         if (err) return console.error(err);
+        var now = Date.now();
+        var today = Math.trunc(now / 86400000) * 86400000;
+        var services = payments.filter((p) => p.contactRequest || p.servedOn > today)
+          .sort((x, y) => {
+            if (x.contactRequest && y.contactRequest)
+              return x.contactRequest.ts - y.contactRequest.ts
+            else if (x.contactRequest)
+              return -1
+            else if (y.contactRequest)
+              return 1
+            return x.servedOn - y.servedOn
+          })
+          .map((x) => {
+            x.contactRequest && (x.elapsed = Math.round((now - x.contactRequest.ts) / 60000));
+            return x;
+          });
         res.render('home', {
           accessToken: req.accessToken.id,
-          services: payments.filter((p) => p.contactRequest),
+          services: services,
           payments: payments
         });
       });
@@ -127,6 +134,7 @@ module.exports = function(app) {
     });
   });
 
+  // almacenar un pago
   app.post('/payment-save', function(req, res, next) {
     if (!req.accessToken) return res.sendStatus(401);
     delete req.body.accessToken;
@@ -134,7 +142,7 @@ module.exports = function(app) {
       res.render('response', {
         title: err ? 'Error' : 'Pago almacenado',
         content: err || 'El pago se guardó correctamente y el recibo fué enviado por correo al cliente',
-        redirectTo: `\home?access_token=${req.accessToken.id}`,
+        redirectTo: `/home?access_token=${req.accessToken.id}`,
         redirectToLinkText: 'Volver al inicio',
       });
     })
@@ -189,6 +197,8 @@ module.exports = function(app) {
       if (err) {
         console.error('POST service_request error', err);
         errMsg.content = 'No pudimos validar la identificación de tu servicio.' + errMsg.content;
+      } else if (payment.status == 'waiting') {
+        errMsg.content = 'Estamos procesando otra de tus solicitudes, por favor intenta más tarde.' + errMsg.content;
       } else if (payment.term <= new Date()) {
         errMsg.content = 'Tu servicio ya no está vigente.' + errMsg.content;
       } else if (payment.totalUnits <= payment.servedUnits) {
@@ -209,5 +219,28 @@ module.exports = function(app) {
       }
     })
   });
-  
+
+  // Requerimiento de servicio enviado
+  app.get('/service-serve', function(req, res, next) {
+    var msg = {
+      title: 'Atención comenzada',
+      content: 'Se ha registrado el inicio de la atención a tu nombre.',
+      redirectTo: `/home?access_token=${req.query.accessToken}`,
+      redirectToLinkText: 'Volver al inicio',
+    }
+    var errMsg = Object.assign({}, msg, { title: 'Error', content: 'Falló el registro de la atención:' })
+    app.models.AccessToken.findById(req.query.accessToken, function(err, tok) {
+      if (err || !tok) errMsg.content += err && res.render('response', errMsg);
+      else {
+        console.log('/service-serve', req.query);
+        app.models.Prepaid.findById(req.query.payment, function(err, payment) {
+          if (err || !payment) errMsg += err && res.render('response', errMsg);
+          else payment.serve({ accessToken: tok }, function(err) {
+            if (err) errMsg += err && res.render('response', errMsg);
+            else res.render('response', msg);
+          })
+        });
+      }
+    })
+  })
 };

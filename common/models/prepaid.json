@@ -38,6 +38,8 @@
       "type": "number",
       "default": 0
     },
+    "servedBy":"string",
+    "servedOn":"date",
     "status": {
       "type": "string",
       "default": "ready"
