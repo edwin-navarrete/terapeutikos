@@ -2,6 +2,7 @@
 
 var app = require('../../server/server');
 var ejs = require('ejs');
+var async = require('async');
 
 module.exports = function(Prepaid) {
 
@@ -74,19 +75,40 @@ module.exports = function(Prepaid) {
       return cb(null, this);
     }
 
-    // TODO Notify all agents
+    var self = this
     const now = new Date();
-    this.status = 'waiting';
+    // Notify all agents
+    const host = (app && app.get('host')) || 'localhost';
+    const port = (app && app.get('port')) || 3000;
+    const emailData = { requestUrl: `http://${host}:${port}/` }
+    app.models.Agent.find({ fields: { email: true } }, function(err, agnts) {
+      if (err) return console.error(err);
+      async.each(agnts, function(agnt, callb) {
+        ejs.renderFile('./server/views/newService.ejs', emailData,
+          function(err, html) {
+            if (err) return next(err)
+            console.log('> notify email to:', agnt.email);
+            app.models.Email.send({
+              to: agnt.email,
+              from: "terapeutikos@gmail.com",
+              subject: 'Terapéutikos - Nuevo servicio ' + now.toLocaleString(),
+              html: html
+            }, callb);
+          })
+      }, (err) => err && console.error('> error sending new service email', err))
+    })
+    // Save the request
+    self.status = 'waiting';
     req.ts = now;
-    this.contactRequest = req;
-    this.serviceLogs.build({
-      request: this.contactRequest,
+    self.contactRequest = req;
+    self.serviceLogs.build({
+      request: self.contactRequest,
       timestamp: now,
     }).save();
-    this.servedBy = null;
-    this.servedOn = null;  
-    this.save();
-    cb(null, this);
+    self.servedBy = null;
+    self.servedOn = null;
+    self.save();
+    cb(null, self);
   };
 
   Prepaid.remoteMethod(
