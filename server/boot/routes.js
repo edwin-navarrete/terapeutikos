@@ -5,6 +5,7 @@
 
 var dsConfig = require('../datasources.json');
 var path = require('path');
+var _ = require('lodash');
 
 module.exports = function(app) {
   var Agent = app.models.Agent;
@@ -87,18 +88,18 @@ module.exports = function(app) {
         if (err) return console.error(err);
         var now = Date.now();
         var today = Math.trunc(now / 86400000) * 86400000;
-        var services = payments.filter((p) => p.contactRequest || p.servedOn > today)
+        var services = payments.filter((p) => p.status == 'waiting' || p.servedOn > today)
           .sort((x, y) => {
-            if (x.contactRequest && y.contactRequest)
+            if (x.status == 'waiting' && y.status == 'waiting')
               return x.contactRequest.ts - y.contactRequest.ts
-            else if (x.contactRequest)
+            else if (x.status == 'waiting')
               return -1
-            else if (y.contactRequest)
+            else if (y.status == 'waiting')
               return 1
             return x.servedOn - y.servedOn
           })
           .map((x) => {
-            x.contactRequest && (x.elapsed = Math.round((now - x.contactRequest.ts) / 60000));
+            x.status == 'waiting' && (x.elapsed = Math.round((now - x.contactRequest.ts) / 60000));
             return x;
           });
         res.render('home', {
@@ -224,7 +225,7 @@ module.exports = function(app) {
   app.get('/service-serve', function(req, res, next) {
     var msg = {
       title: 'Atención comenzada',
-      content: 'Se ha registrado el inicio de la atención a tu nombre.',
+      content: 'Se ha registrado el inicio de la atención a tu nombre, te recordamos los datos de contacto:',
       redirectTo: `/home?access_token=${req.query.accessToken}`,
       redirectToLinkText: 'Volver al inicio',
     }
@@ -236,8 +237,18 @@ module.exports = function(app) {
         app.models.Prepaid.findById(req.query.payment, function(err, payment) {
           if (err || !payment) errMsg += err && res.render('response', errMsg);
           else payment.serve({ accessToken: tok }, function(err) {
-            if (err) errMsg += err && res.render('response', errMsg);
-            else res.render('response', msg);
+            if (err){
+              errMsg += err && res.render('response', errMsg);
+              return 
+            } 
+            i18n = {
+              'video':'Videollamada',
+              'chat':'Chat',
+              'call':'Llamada',          
+            }
+            msg.contact = Object.assign({}, payment.contactRequest);
+            msg.contact.contactBy = i18n[msg.contact.contactBy]; 
+            res.render('served', msg);
           })
         });
       }

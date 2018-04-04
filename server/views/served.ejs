@@ -1,0 +1,34 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+<%- include('header') %>
+
+  <section class="container">
+    <h1>
+      <%= title %>
+    </h1>
+    <% if (typeof content !== 'undefined') { %>
+      <p>
+        <%= content %>
+      </p>
+      <p><i class="glyphicon glyphicon-user"></i> Contactar a <%= contact.name %></p>
+      <p><i class="glyphicon glyphicon-headphones"></i> a través de <%= contact.contactBy %></p>
+      <p>
+        <a class="btn btn-success" role="button" href="tel:<%= contact.phone %>">
+          <i class="glyphicon glyphicon-phone"></i>&nbsp;<%= contact.phone %>
+        </a>
+      </p>
+      <p>
+        <a class="btn btn-success" role="button" href="mailto:<%= contact.email %>?Subject=Terapeutikos">
+          <i class="glyphicon glyphicon-envelope"></i>&nbsp;<%= contact.email %>
+        </a>
+      </p>
+      <p><i class="glyphicon glyphicon-calendar"></i> solicitud hecha en <%= contact.ts.toLocaleString() %></p>
+      <% } %>
+        <a href="<%= redirectTo %>">
+          <%= redirectToLinkText %>
+        </a>
+  </section>

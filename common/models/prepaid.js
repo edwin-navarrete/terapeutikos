@@ -40,7 +40,7 @@ module.exports = function(Prepaid) {
     const token = options && options.accessToken;
     const userId = token && token.userId;
     const self = this;
-    if (!self.contactRequest) {
+    if (self.servedBy) {
       return cb(null, self);
     }
     app.models.Agent.findById(userId, function(err, usr) {
@@ -58,7 +58,6 @@ module.exports = function(Prepaid) {
         }).save();
       }
       const request = self.contactRequest;
-      self.contactRequest = null;
       self.servedBy = usr.email;
       self.servedOn = now;
       self.save();
@@ -84,6 +83,8 @@ module.exports = function(Prepaid) {
       request: this.contactRequest,
       timestamp: now,
     }).save();
+    this.servedBy = null;
+    this.servedOn = null;  
     this.save();
     cb(null, this);
   };
