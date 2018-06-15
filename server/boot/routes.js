@@ -35,7 +35,7 @@ module.exports = function(app) {
           res.render('reponseToTriggerEmail', {
             title: 'Falló el Ingreso',
             content: err,
-            redirectToEmail: '/api/users/' + err.details.userId + '/verify',
+            redirectToEmail: '/api/Agents/' + err.details.userId + '/verify',
             redirectTo: '/',
             redirectToLinkText: 'Clic acá',
             userId: err.details.userId
@@ -114,7 +114,7 @@ module.exports = function(app) {
   app.get('/reset-password', function(req, res, next) {
     if (!req.accessToken) return res.sendStatus(401);
     res.render('password-reset', {
-      redirectUrl: '/api/users/reset-password?access_token=' +
+      redirectUrl: '/api/Agents/reset-password?access_token=' +
         req.accessToken.id
     });
   });
